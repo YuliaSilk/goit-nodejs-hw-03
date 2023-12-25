@@ -1,7 +1,7 @@
 import app from './app.js';
 import mongoose from 'mongoose';
+import { DB_HOST } from './config.js';
 
-const DB_HOST='mongodb+srv://Yuliia:b5HS0FLvDMN283o5@cluster0.0xerkey.mongodb.net/db-contacts?retryWrites=true&w=majority';
 
 mongoose.connect(DB_HOST)
 .then(() => {
@@ -17,7 +17,7 @@ process.exit(1);
 
 
 
-// b5HS0FLvDMN283o5-password
+
 
 
 
