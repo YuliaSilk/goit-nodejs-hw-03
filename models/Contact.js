@@ -14,7 +14,7 @@ const contactSchema = new Schema({
     },
     phone: {
         type: String,
-        match: /^\(d{3}\) \d{3}-\d{4}$/,
+        // match: /^\(d{3}\) \d{3}-\d{4}$/,
         require:true
     },
     favorite: {
@@ -25,6 +25,7 @@ const contactSchema = new Schema({
 {versionKey: false, timestamps: true});
 
 contactSchema.post("save", handleSaveError);
+
 contactSchema.pre("findOneAndUpdate", addUpdateSettings);
 
 contactSchema.post("findOneAndUpdate", handleSaveError);
@@ -39,7 +40,7 @@ export const contactAddScema = Joi.object ({
     phone: Joi.string().required().messages({
         "any.required": `"phone" must be exist`
     }),
-    favorite: Joi.boolean(),
+    // favorite: Joi.boolean(),
 })
 
 export const contactUpdateFavoriteSchema = Joi.object ({

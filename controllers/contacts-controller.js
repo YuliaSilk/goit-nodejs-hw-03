@@ -1,4 +1,4 @@
-import Contact from '../models/Contact.js';
+import Contact, { contactUpdateFavoriteSchema, contactUpdateSchema } from '../models/Contact.js';
 import {HttpError} from '../helpers/index.js';
 import {ctrlWrapper} from '../decorators/index.js';
 
@@ -17,26 +17,35 @@ const getById = async (req, res, next) => {
   }
 
 const addContact = async (req, res) => {
-  // const {error} = contactAddScema.validate(req.body);
-  // if(error) {
-  //     throw HttpError(400, error.message)
-  // }
   const result = await Contact.create(req.body);
   res.status(201).json(result)  
   }
 
-const updateContactsById = async (req, res) => {
-  // const {error} = contactUpdateSchema.validate(req.body);
-  //       if(error) {
-  //           throw HttpError(400, `missing fields`)
-  //       }        
+const updateContactsById = async (req, res) => {   
+  const { error } = contactUpdateSchema.validate(req.body);
+  if(error) {
+    throw HttpError(400, error.message)
+  }
   const { id } = req.params;
           const result = await Contact.findByIdAndUpdate(id, req.body);
         if(!result) {
             throw HttpError(404, `Not found`);
         }
         res.json(result);
-  }  
+  }
+  
+const updateFavContact =  async(req, res) => {
+  const { error } = contactUpdateFavoriteSchema.validate(req.body)
+  if(!result) {
+    throw HttpError(400, "Missing field favorite");
+  }
+  const { id } = req.params;
+  const result = await Contact.findByIdAndUpdate(id, req.body)
+  if (!result) {
+    throw HttpError(404, "Not found")
+  }
+  res.json(result);
+}
 
 const deleteContact = async (req, res) => { 
   const { id } = req.params;
@@ -52,5 +61,6 @@ const deleteContact = async (req, res) => {
         getById: ctrlWrapper(getById),
         addContact: ctrlWrapper(addContact),
         updateContactsById: ctrlWrapper(updateContactsById),
+        updateFavContact: ctrlWrapper(updateFavContact),
         deleteContact: ctrlWrapper(deleteContact),
     }
