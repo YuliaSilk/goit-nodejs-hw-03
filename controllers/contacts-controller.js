@@ -59,6 +59,6 @@ const deleteContact = async (req, res) => {
         getById: ctrlWrapper(getById),
         addContact: ctrlWrapper(addContact),
         updateContactsById: ctrlWrapper(updateContactsById),
-        updateFavContact: ctrlWrapper(updateFavContact),
+        // updateFavContact: ctrlWrapper(updateFavContact),
         deleteContact: ctrlWrapper(deleteContact),
     }
