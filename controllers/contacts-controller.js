@@ -25,13 +25,20 @@ const addContact = async (req, res) => {
 const updateContactsById = async (req, res) => {   
   const { id } = req.params;
 
-  const result = await Contact.findByIdAndUpdate(id, req.body);
-  if(!result) {
+  const result = await Contact.findById(id);
+  if (!result) {
       throw HttpError(404, `Not found`);
   }
-  res.json(result);        
+
+  const updatedContact = await Contact.findByIdAndUpdate(id, req.body);
+  // if(!result) {
+  //     throw HttpError(404, `Not found`);
+  // }
+  res.json(updatedContact);        
   }
   
+
+
 // const updateFavContact =  async(req, res) => {
 //   const { error } = contactUpdateFavoriteSchema.validate(req.body)
 //   if(error) {
