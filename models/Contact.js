@@ -2,6 +2,7 @@ import { Schema, model } from "mongoose";
 import { handleSaveError, addUpdateSettings } from "./hooks.js";
 import Joi from 'joi';
 
+const phoneRegexp =  /^\(d{3}\) \d{3}-\d{4}$/;
 
 const contactSchema = new Schema({
     name: {
@@ -14,7 +15,7 @@ const contactSchema = new Schema({
     },
     phone: {
         type: String,
-        // match: /^\(d{3}\) \d{3}-\d{4}$/,
+        match: phoneRegexp,
         require:true
     },
     favorite: {
@@ -34,13 +35,9 @@ export const contactAddScema = Joi.object ({
     name: Joi.string().required().messages({
         "any.required": `"name" must be exist`
     }),
-    email: Joi.string().required().messages({
-        "any.required": `"email" must be exist`
-    }),
-    phone: Joi.string().required().messages({
-        "any.required": `"phone" must be exist`
-    }),
-    // favorite: Joi.boolean(),
+    email: Joi.string().required(),
+    phone: Joi.string().pattern(phoneRegexp).required(),
+    favorite: Joi.boolean(),
 })
 
 export const contactUpdateFavoriteSchema = Joi.object ({
@@ -50,7 +47,9 @@ export const contactUpdateFavoriteSchema = Joi.object ({
 export const contactUpdateSchema = Joi.object ({
     name: Joi.string(),
     email: Joi.string(),
-    phone: Joi.string(),
+    phone: Joi.string().pattern(phoneRegexp),
+    favorite: Joi.boolean(),
+
 })
 
 const Contact = model("contact", contactSchema);

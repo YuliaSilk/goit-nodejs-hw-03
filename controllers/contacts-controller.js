@@ -29,28 +29,34 @@ const updateContactsById = async (req, res) => {
   if (!result) {
       throw HttpError(404, `Not found`);
   }
-
-  const updatedContact = await Contact.findByIdAndUpdate(id, req.body);
-  // if(!result) {
-  //     throw HttpError(404, `Not found`);
-  // }
-  res.json(updatedContact);        
+  const { length } = Object.keys(req.body);
+  if(!length) {
+      throw (HttpError(400, "Missing field favorite"))
   }
-  
+  const updatedContact = await Contact.findByIdAndUpdate(id, req.body);
+  if(!result) {
+      throw HttpError(404, `Not found`);
+  }
+ 
+  res.json(updatedContact);        
+}
 
-
-// const updateFavContact =  async(req, res) => {
-//   const { error } = contactUpdateFavoriteSchema.validate(req.body)
-//   if(error) {
-//     throw HttpError(400, "Missing field favorite");
-//   }
+// const updateFavContact = async(req, res) => {
 //   const { id } = req.params;
-//   const result = await Contact.findOneAndUpdate(id, req.body)
-//   if (!result) {
-//     throw HttpError(404, "Not found")
+
+//   const { error } = contactUpdateFavoriteSchema.validate(req.body);
+//     if (error) {
+//       throw HttpError(400, "Missing field favorite");
+//     }
+//     const updatedContact = await Contact.findByIdAndUpdate(id, req.body);
+//   if(!result) {
+//       throw HttpError(404, `Not found`);
 //   }
-//   res.json(result);
+//   res.json(updatedContact);     
+
 // }
+  
+ 
 
 const deleteContact = async (req, res) => { 
   const { id } = req.params;
