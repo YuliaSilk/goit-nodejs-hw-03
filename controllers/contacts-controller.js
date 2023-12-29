@@ -24,39 +24,23 @@ const addContact = async (req, res) => {
 
 const updateContactsById = async (req, res) => {   
   const { id } = req.params;
-
-  const result = await Contact.findById(id);
-  if (!result) {
-      throw HttpError(404, `Not found`);
-  }
-  const { length } = Object.keys(req.body);
-  if(!length) {
-      throw (HttpError(400, "Missing field favorite"))
-  }
-  const updatedContact = await Contact.findByIdAndUpdate(id, req.body);
+  const result = await Contact.findByIdAndUpdate(id, req.body);
   if(!result) {
       throw HttpError(404, `Not found`);
   }
- 
-  res.json(updatedContact);        
+  res.json(result);        
 }
 
-// const updateFavContact = async(req, res) => {
+// const updateById = async (req, res) => {
 //   const { id } = req.params;
-
-//   const { error } = contactUpdateFavoriteSchema.validate(req.body);
-//     if (error) {
-//       throw HttpError(400, "Missing field favorite");
-//     }
-//     const updatedContact = await Contact.findByIdAndUpdate(id, req.body);
-//   if(!result) {
-//       throw HttpError(404, `Not found`);
+//   const result = await Movie.findByIdAndUpdate(id, req.body);
+//   if (!result) {
+//       throw HttpError(404, `Movie with id=${id} not found`);
 //   }
-//   res.json(updatedContact);     
 
+//   res.json(result);
 // }
-  
- 
+
 
 const deleteContact = async (req, res) => { 
   const { id } = req.params;
@@ -72,6 +56,5 @@ const deleteContact = async (req, res) => {
         getById: ctrlWrapper(getById),
         addContact: ctrlWrapper(addContact),
         updateContactsById: ctrlWrapper(updateContactsById),
-        // updateFavContact: ctrlWrapper(updateFavContact),
         deleteContact: ctrlWrapper(deleteContact),
     }
